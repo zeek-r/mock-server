@@ -1,0 +1,99 @@
+org: foodpanda
+app: pd-apollo-loki
+service: pd-apollo-loki-${opt:user, self:custom.defaultUser}
+
+frameworkVersion: ">=1.47.0 <2.0.0"
+
+plugins:
+  - serverless-plugin-warmup
+  - serverless-offline
+
+custom:
+  defaultUser: ""
+  warmup:
+    schedule: "cron(0/5 * ? * MON-FRI *)" # We will change this to the day of the week when load test will run
+    prewarm: true # Run WarmUp immediately after a deployment
+  serverless-offline:
+    host: "0.0.0.0"
+    port: 4000
+  allowedHeaders:
+    - Accept
+    - Content-Type
+    - Content-Length
+    - Authorization
+
+provider:
+  name: aws
+  runtime: go1.x
+  region: ${opt:region, 'ap-southeast-1'}
+  stage: ${opt:stage, 'staging'}
+#   stackName: fp-apac-auth-${opt:user, self:custom.defaultUser}-${self:provider.region}-${self:provider.stage}
+  endpointType: regional
+  deploymentBucket:
+    name: fp-apollo-serverless-${self:provider.region}-deploys-${self:provider.stage}
+    maxPreviousDeploymentArtifacts: 3
+  deploymentPrefix: apollo-loki
+  memorySize: 128
+  logs:
+    restApi: true
+  tracing:
+    apiGateway: true
+    lambda: true
+  timeout: 30
+  environment:
+    STAGE: ${self:provider.stage}
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+  
+functions:
+  handlePost:
+    handler: bin/handlePost
+    events:
+      - http:
+          path: /mock/{service_name}/{handler_name}
+          method: post
+          cors:
+            origins:
+              - "*"
+            headers: ${self:custom.allowedHeaders}
+            allowCredentials: false
+
+  handleGet:
+    handler: bin/handleGet
+    events:
+      - http:
+          path: /mock/{service_name}/{handler_name}
+          method: get
+          cors:
+            origins:
+              - "*"
+            headers: ${self:custom.allowedHeaders}
+            allowCredentials: false
+
+  handlePut:
+    handler: bin/put
+    events:
+      - http:
+          path: /mock/{service_name}/{handler_name}
+          method: put
+          cors:
+            origins:
+              - "*"
+            headers: ${self:custom.allowedHeaders}
+            allowCredentials: false
+
+  handlePatch:
+    handler: bin/handlePatch
+    events:
+      - http:
+          path: /mock/{service_name}/{handler_name}
+          method: patch
+          cors:
+            origins:
+              - "*"
+            headers: ${self:custom.allowedHeaders}
+            allowCredentials: false
