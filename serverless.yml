@@ -27,7 +27,7 @@ provider:
   runtime: go1.x
   region: ${opt:region, 'ap-southeast-1'}
   stage: ${opt:stage, 'staging'}
-#   stackName: fp-apac-auth-${opt:user, self:custom.defaultUser}-${self:provider.region}-${self:provider.stage}
+  #   stackName: fp-apac-auth-${opt:user, self:custom.defaultUser}-${self:provider.region}-${self:provider.stage}
   endpointType: regional
   deploymentBucket:
     name: fp-apollo-serverless-${self:provider.region}-deploys-${self:provider.stage}
@@ -48,13 +48,13 @@ package:
     - ./**
   include:
     - ./bin/**
-  
+
 functions:
   handlePost:
-    handler: bin/handlePost
+    handler: bin/post
     events:
       - http:
-          path: /mock/{service_name}/{handler_name}
+          path: /api/v1/{external_path}
           method: post
           cors:
             origins:
@@ -63,11 +63,29 @@ functions:
             allowCredentials: false
 
   handleGet:
-    handler: bin/handleGet
+    handler: bin/get
     events:
       - http:
-          path: /mock/{service_name}/{handler_name}
+          path: /api/v1/vendor-service/vendors/{vendor_code}/info
           method: get
+          request:
+            parameters:
+              external_path: optional
+          cors:
+            origins:
+              - "*"
+            headers: ${self:custom.allowedHeaders}
+            allowCredentials: false
+
+  handleGetTest:
+    handler: bin/get
+    events:
+      - http:
+          path: /api/v1/{external_path}
+          method: get
+          request:
+            parameters:
+              external_path: optional
           cors:
             origins:
               - "*"
@@ -78,7 +96,7 @@ functions:
     handler: bin/put
     events:
       - http:
-          path: /mock/{service_name}/{handler_name}
+          path: /api/v1/{external_path}
           method: put
           cors:
             origins:
@@ -87,10 +105,10 @@ functions:
             allowCredentials: false
 
   handlePatch:
-    handler: bin/handlePatch
+    handler: bin/post
     events:
       - http:
-          path: /mock/{service_name}/{handler_name}
+          path: /api/v1/{external_path}
           method: patch
           cors:
             origins:
