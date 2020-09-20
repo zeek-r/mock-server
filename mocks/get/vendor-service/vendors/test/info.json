@@ -1,0 +1,9 @@
+{
+    "latency": {
+        "p95": 500,
+        "p99": 1000
+    },
+    "response": {
+        "vertical": "restaurant"
+    }
+}
