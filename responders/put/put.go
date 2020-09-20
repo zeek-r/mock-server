@@ -1,9 +1,11 @@
-package putresponder
+package put
 
 import (
 	jsonreader "github.com/rolorin/pd-apollo-loki/utility/jsonReader"
+	latencygenerator "github.com/rolorin/pd-apollo-loki/utility/latencyGenerator"
 )
 
-func Put(filePath string) interface{} {
-	return jsonreader.JSONReader(filePath)
+// Response responder...
+func Response(filePath string) interface{} {
+	return latencygenerator.Sleep(jsonreader.JSONReader(filePath))
 }
