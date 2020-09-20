@@ -1,9 +1,11 @@
-package service
+package patch
 
 import (
-	"io/ioutil"
+	jsonreader "github.com/rolorin/pd-apollo-loki/utility/jsonReader"
+	latencygenerator "github.com/rolorin/pd-apollo-loki/utility/latencyGenerator"
 )
 
-func Put(filePath string) ([]byte, error) {
-	return ioutil.ReadFile(filePath)
+// Response responder...
+func Response(filePath string) interface{} {
+	return latencygenerator.Sleep(jsonreader.JSONReader(filePath))
 }
