@@ -2,16 +2,19 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+
+	"github.com/rolorin/pd-apollo-loki/config"
+	"github.com/rolorin/pd-apollo-loki/utility/path"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	putresponder "github.com/rolorin/pd-apollo-loki/responders/put"
+	"github.com/rolorin/pd-apollo-loki/responders/put"
 )
 
+// Handler for http...
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	fmt.Println("Request here", request.Body)
-	response := putresponder.Put("./mocks/vendor-management/vendor.json")
+	responsePath := path.GetResponsePath(config.GetConfig("mockDirectory"), request.HTTPMethod, request.Path)
+	response := put.Response(responsePath)
 	res, _ := json.Marshal(response)
 	return events.APIGatewayProxyResponse{Body: string(res), StatusCode: 200}, nil
 }
