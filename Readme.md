@@ -1,4 +1,4 @@
-# Like the God of Mischief, mocking your APIs
+# Like the God of Mischief, playing with your external API requests
 
 ---
 
