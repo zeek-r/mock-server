@@ -4,7 +4,7 @@
   "description": "A mock lambda for apollo",
   "main": "index.js",
   "dependencies": {
-    "serverless-offline": "^6.5.0",
+    "serverless-offline": "^6.8.0",
     "serverless-plugin-warmup": "^4.9.0"
   },
   "devDependencies": {},
