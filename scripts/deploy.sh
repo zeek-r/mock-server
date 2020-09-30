@@ -15,4 +15,4 @@ set -e
 echo "Deploying to AWS region: $REGION"
 sls deploy -v --region "$REGION" --stage "$STAGE" --user apollo
 
-bash send-to-datafridge.bash -r "$REGION"
+# bash send-to-datafridge.bash -r "$REGION"

@@ -10,8 +10,8 @@ go:
 env:
   - GO111MODULE=on GOPATH="/home/travis/go"
 
-before_install:
-  - 'curl -H "Authorization: token $GITHUB_TOKEN" -O https://raw.githubusercontent.com/deliveryhero/fp-apollo-datafridge/master/deployment-event/send-to-datafridge.bash'
+# before_install:
+#   - 'curl -H "Authorization: token $GITHUB_TOKEN" -O https://raw.githubusercontent.com/deliveryhero/fp-apollo-datafridge/master/deployment-event/send-to-datafridge.bash'
   
 install:
   - go mod download

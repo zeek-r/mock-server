@@ -46,10 +46,11 @@ provider:
     STAGE: ${self:provider.stage}
 
 package:
+  individually: true
   exclude:
-    - ./**
+    - ".*/**"
   include:
-    - ./bin/**
+    - "./bin/**"
 
 functions:
   handleProductCreate:
@@ -64,38 +65,11 @@ functions:
             headers: ${self:custom.allowedHeaders}
             allowCredentials: false
 
-  handlePost:
-    handler: bin/post
-    events:
-      - http:
-          path: /api/v1/{external_path}
-          method: post
-          cors:
-            origins:
-              - "*"
-            headers: ${self:custom.allowedHeaders}
-            allowCredentials: false
-
   handleGet:
     handler: bin/get
     events:
       - http:
           path: /api/v1/vendor-service/vendors/{vendor_code}/info
-          method: get
-          request:
-            parameters:
-              external_path: optional
-          cors:
-            origins:
-              - "*"
-            headers: ${self:custom.allowedHeaders}
-            allowCredentials: false
-
-  handleGetTest:
-    handler: bin/get
-    events:
-      - http:
-          path: /api/v1/{external_path}
           method: get
           request:
             parameters:
