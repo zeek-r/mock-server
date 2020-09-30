@@ -1,0 +1,37 @@
+language: go
+
+env:
+  global:
+    - PROJECT=pd-apollo-agent-status-service
+
+go:
+  - 1.x
+
+env:
+  - GO111MODULE=on GOPATH="/home/travis/go"
+
+before_install:
+  - 'curl -H "Authorization: token $GITHUB_TOKEN" -O https://raw.githubusercontent.com/deliveryhero/fp-apollo-datafridge/master/deployment-event/send-to-datafridge.bash'
+  
+install:
+  - go mod download
+  - nvm install 12.13
+  - npm install
+  - npm install -g serverless@1.65.0
+
+script: 
+  - make clean
+  - make build
+
+jobs:
+  include:
+    - name: "Test"
+      env: 
+      - REGION=eu-central-1
+
+deploy:
+  - provider: script
+    script: bash scripts/deploy.sh -r $REGION -s stg
+    skip_cleanup: "true"
+    on:
+      branch: master
