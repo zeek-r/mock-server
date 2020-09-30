@@ -31,7 +31,7 @@ jobs:
 
 deploy:
   - provider: script
-    script: bash scripts/deploy.sh -r $REGION -s stg
+    script: bash scripts/deploy.sh -s stg
     skip_cleanup: "true"
     on:
       branch: master
