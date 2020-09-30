@@ -1,0 +1,10 @@
+{
+  "latency": {
+    "p95": 500,
+    "p99": 1000
+  },
+  "response": {
+    "id": "NEW_PRODUCT_ID",
+    "variationId": "NEW_VARIATION_ID"
+  }
+}
