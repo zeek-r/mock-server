@@ -1,4 +1,3 @@
-org: foodpanda
 app: pd-apollo-loki
 service: pd-apollo-loki
 
