@@ -23,6 +23,12 @@
 - utility, contains helpers
   - utility/latencyCalculator, calculates latency from p95, p99
 
+## For requests that are re-routed to this service
+
+---
+
+Please use vendor code: test
+
 ## WIP Status
 
 - Only put handler works for now with hard coded response.
