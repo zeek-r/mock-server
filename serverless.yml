@@ -1,8 +1,9 @@
 org: foodpanda
 app: pd-apollo-loki
-service: pd-apollo-loki-${opt:user, self:custom.defaultUser}
+service: pd-apollo-loki
 
-frameworkVersion: ">=1.47.0 <2.0.0"
+frameworkVersion: ">=1.47.0 <=2.0.0"
+excludeDevDependencies: true
 
 plugins:
   - serverless-plugin-warmup
@@ -15,7 +16,7 @@ custom:
     prewarm: true # Run WarmUp immediately after a deployment
   serverless-offline:
     host: "0.0.0.0"
-    port: 4000
+    port: 4040
   allowedHeaders:
     - Accept
     - Content-Type
@@ -25,9 +26,10 @@ custom:
 provider:
   name: aws
   runtime: go1.x
-  region: ${opt:region, 'ap-southeast-1'}
-  stage: ${opt:stage, 'staging'}
-  #   stackName: fp-apac-auth-${opt:user, self:custom.defaultUser}-${self:provider.region}-${self:provider.stage}
+  region: ${opt:region, 'eu-central-1'}
+  accountId: ${opt:accountId, env:ACCOUNT_ID}
+  stage: ${opt:stage, 'stg'}
+    stackName: fp-apac-auth-${opt:user, self:custom.defaultUser}-${self:provider.region}-${self:provider.stage}
   endpointType: regional
   deploymentBucket:
     name: fp-apollo-serverless-${self:provider.region}-deploys-${self:provider.stage}
@@ -40,6 +42,8 @@ provider:
     apiGateway: true
     lambda: true
   timeout: 30
+  apiGateway:
+    minimumCompressionSize: 100
   environment:
     STAGE: ${self:provider.stage}
 
