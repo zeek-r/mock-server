@@ -52,6 +52,18 @@ package:
     - ./bin/**
 
 functions:
+  handleProductCreate:
+    handler: bin/post
+    events:
+      - http:
+          path: /api/v1/catalog/products
+          method: post
+          cors:
+            origins:
+              - "*"
+            headers: ${self:custom.allowedHeaders}
+            allowCredentials: false
+
   handlePost:
     handler: bin/post
     events:
@@ -107,10 +119,22 @@ functions:
             allowCredentials: false
 
   handlePatch:
-    handler: bin/post
+    handler: bin/patch
     events:
       - http:
           path: /api/v1/{external_path}
+          method: patch
+          cors:
+            origins:
+              - "*"
+            headers: ${self:custom.allowedHeaders}
+            allowCredentials: false
+
+  handleProductUpdate:
+    handler: bin/patch
+    events:
+      - http:
+          path: /api/v1/catalog/products/test
           method: patch
           cors:
             origins:
