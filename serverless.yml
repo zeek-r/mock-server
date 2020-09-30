@@ -29,7 +29,6 @@ provider:
   region: ${opt:region, 'eu-central-1'}
   accountId: ${opt:accountId, env:ACCOUNT_ID}
   stage: ${opt:stage, 'stg'}
-    stackName: fp-apac-auth-${opt:user, self:custom.defaultUser}-${self:provider.region}-${self:provider.stage}
   endpointType: regional
   deploymentBucket:
     name: fp-apollo-serverless-${self:provider.region}-deploys-${self:provider.stage}
